@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnotationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('annotate', [AnnotationController::class, 'displayForm'])->name('displayForm');
+Route::post('annotate', [AnnotationController::class, 'annotateImage'])->name('annotateImage');
