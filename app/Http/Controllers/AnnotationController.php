@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GoogleCloudVision\GoogleCloudVision;
 use GoogleCloudVision\Request\AnnotateImageRequest;
+use Image;
 
 class AnnotationController extends Controller
 {
@@ -18,9 +19,12 @@ class AnnotationController extends Controller
     {
         if($request->file('image')){
 
-            //convert image to base64
-            $image = base64_encode(file_get_contents($request->file('image')));
+            // redimensiona imagem
+            $image = Image::make($request->file('image'))->encode('jpg', 50);
 
+            //convert image to base64
+            // $image = base64_encode(file_get_contents($request->file('image')));
+            $image = base64_encode(file_get_contents($image));
             //prepare request
             $request = new AnnotateImageRequest();
             $request->setImage($image);
@@ -37,9 +41,7 @@ class AnnotationController extends Controller
             foreach ($array as $key => $value) {
 
                 $words = explode("\n", $value);
-
                 // dd($words); //  array
-
                 $jogo = $words[0];
                 $entrada = (integer) $words[17];
                 $saida = (integer) $words[20];
