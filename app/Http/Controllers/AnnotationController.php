@@ -20,7 +20,7 @@ class AnnotationController extends Controller
         if($request->file('image')){
 
             // redimensiona imagem
-            $image = Image::make($request->file('image'))->encode('jpg', 50);
+            $image = Image::make($request->file('image'))->encode('jpg', 50)->resize(200,200);
 
             //convert image to base64
             // $image = base64_encode(file_get_contents($request->file('image')));
